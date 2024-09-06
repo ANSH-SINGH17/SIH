@@ -9,7 +9,7 @@
 #define echo A2    //Echo pin
 #define trigger A1 //Trigger pin
 #define servo A5 //servo motor pin
-int Set=8;
+int Set=10;
 int distance_L, distance_F, distance_R, right, left; 
 
 void setup(){ // put your setup code here, to run once
@@ -44,7 +44,8 @@ Serial.print("left ");Serial.println(left);
   if(distance_F > Set){
     forward();
     }
-                  else{Check_side();}  
+                  else{Stop();delay(1000);
+                    Check_side();}  
  }  
 else if((digitalRead(R_S) == 1)&&(digitalRead(L_S) == 0)){Stop();delay(1000);turnRight();delay(50);}  
 else if((digitalRead(R_S) == 0)&&(digitalRead(L_S) == 1)){Stop();delay(1000);  turnLeft();delay(50);} 
@@ -61,7 +62,7 @@ int pwm = (angle*11) + 500;      // Convert angle to microseconds
  digitalWrite(pin, LOW);
  delay(100); // Refresh cycle of servo
 }
-//**********************Ultrasonic_read****************************
+
 long Ultrasonic_read(){
   digitalWrite(trigger, LOW);
   delayMicroseconds(2);
@@ -73,24 +74,23 @@ long Ultrasonic_read(){
 void compareDistance(){
     if(distance_L > distance_R){
   turnLeft();
-  delay(300);
+  delay(250);
   forward();
   delay(600);
   turnRight();
-  delay(300);
+  delay(100);
+    
   }
   else{
   turnRight();
-  delay(300);
+  delay(200);
   forward();
   delay(600);
   turnLeft();
-  delay(300);
+  delay(100);
 }
 }
 void Check_side(){
-    Stop();
-    delay(1000);
  for (int angle = 70; angle <= 140; angle += 5)  {
    servoPulse(servo, angle);  }
     delay(300);
